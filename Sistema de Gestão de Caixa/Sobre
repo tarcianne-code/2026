@@ -1,0 +1,296 @@
+CAPÍTULO 4 – DESENVOLVIMENTO E TESTES
+
+
+---
+
+4.1 Implementação do Sistema
+
+O sistema foi desenvolvido em duas versões distintas:
+
+1. Aplicação Web (HTML, CSS e JavaScript)
+
+
+2. Aplicação Desktop utilizando Java com JavaFX
+
+
+
+Ambas possuem a mesma lógica de funcionamento, porém utilizam mecanismos diferentes de persistência de dados:
+
+A versão Web utiliza armazenamento local do navegador (LocalStorage).
+
+A versão Desktop utiliza persistência em arquivo binário (.dat) por meio de serialização em Java.
+
+
+A estrutura hierárquica implementada é:
+
+Ano → Mês → Movimentações
+
+Essa organização permite ao usuário navegar e registrar operações financeiras de forma estruturada.
+
+
+---
+
+4.2 Arquitetura do Sistema
+
+🔹 Versão Web
+
+A aplicação Web foi estruturada utilizando:
+
+HTML para estruturação das páginas
+
+CSS para estilização visual
+
+JavaScript para regras de negócio, cálculos e manipulação dinâmica
+
+LocalStorage para persistência dos dados no navegador
+
+
+A navegação é dinâmica, simulando uma estrutura de pastas onde o usuário pode criar anos e meses, armazenando movimentações dentro desses níveis.
+
+A lógica financeira (cálculo de saldo, validações e atualização da interface) ocorre integralmente no JavaScript.
+
+
+---
+
+🔹 Versão Desktop (JavaFX)
+
+A aplicação Desktop foi desenvolvida utilizando:
+
+Java
+
+JavaFX para interface gráfica
+
+Serialização de objetos para persistência em arquivo local
+
+
+A estrutura foi organizada separando:
+
+Classes de Modelo (Usuario, Movimento)
+
+Classe de persistência (BancoDados)
+
+Classes de Interface (LoginView, DashboardView)
+
+
+Embora não tenha sido utilizado um framework MVC formal, a organização segue o princípio de separação de responsabilidades:
+
+Model → Representação das entidades e estrutura de dados
+
+View → Interface gráfica em JavaFX
+
+Persistência → Classe responsável por leitura e escrita em arquivo
+
+
+A lógica de negócio (validações, cálculos e atualização de saldo) ocorre na camada Java.
+
+
+---
+
+4.3 Funcionalidades Implementadas
+
+As duas versões possuem as seguintes funcionalidades principais:
+
+
+---
+
+📁 Navegação Hierárquica
+
+O usuário pode:
+
+Criar ano
+
+Criar mês dentro do ano
+
+Navegar entre os níveis
+
+Visualizar estrutura organizada em formato hierárquico
+
+
+
+---
+
+💰 Cadastro de Movimentações
+
+Permite:
+
+Inserir entrada
+
+Inserir saída
+
+Informar descrição
+
+Informar valor
+
+Cálculo automático de saldo
+
+
+
+---
+
+✏️ Edição
+
+Na versão atual:
+
+É possível excluir registros
+
+O saldo é recalculado automaticamente após alterações
+
+
+(A edição direta pode ser descrita como melhoria futura, caso ainda não esteja totalmente implementada.)
+
+
+---
+
+❌ Exclusão
+
+Permite:
+
+Remover movimentações
+
+Atualização automática dos totais após exclusão
+
+
+
+---
+
+📊 Cálculo Automático
+
+O saldo é calculado com base na fórmula:
+
+Saldo = Total de Entradas – Total de Saídas
+
+Na versão Web:
+
+O cálculo ocorre dinamicamente via JavaScript.
+
+
+Na versão Desktop:
+
+O cálculo ocorre na lógica implementada em Java.
+
+
+O saldo é atualizado automaticamente após cada inserção ou remoção.
+
+
+---
+
+🔐 Validação de Dados
+
+Implementado em ambas as versões:
+
+Bloqueio de campos vazios
+
+Verificação de valores numéricos
+
+Tratamento básico de erros
+
+Impedimento de operações sem seleção de ano e mês
+
+
+
+---
+
+4.4 Diferenças Técnicas Entre as Versões
+
+Característica	Web	Desktop
+
+Execução	Navegador	Aplicação Java (.jar)
+Interface	HTML/CSS	JavaFX
+Lógica	JavaScript	Java
+Persistência	LocalStorage	Arquivo .dat
+Instalação	Não necessita	Necessita Java Runtime
+
+
+Isso demonstra adaptação da mesma lógica de negócio para tecnologias diferentes, mantendo consistência funcional.
+
+
+---
+
+4.5 Prints das Telas
+
+Organização sugerida:
+
+Figura 1 – Tela inicial (Versão Web)
+Figura 2 – Tela de movimentações (Web)
+Figura 3 – Tela inicial (JavaFX)
+Figura 4 – Tela de movimentações (JavaFX)
+
+
+---
+
+4.6 Testes Realizados
+
+✔️ Testes Funcionais
+
+Cadastro de usuário
+
+Login
+
+Criação de ano
+
+Criação de mês
+
+Inserção de movimentações
+
+Exclusão de movimentações
+
+Atualização automática de saldo
+
+
+
+---
+
+✔️ Testes de Persistência
+
+Armazenamento correto no LocalStorage (Web)
+
+Gravação e leitura correta do arquivo .dat (Desktop)
+
+
+
+---
+
+✔️ Testes de Validação
+
+Impedimento de campos vazios
+
+Tratamento de valores inválidos
+
+Bloqueio de movimentação sem seleção de período
+
+
+
+---
+
+✔️ Teste de Consistência Lógica
+
+Foi verificado que:
+
+A regra de cálculo é idêntica nas duas versões.
+
+A navegação hierárquica funciona corretamente.
+
+A atualização do saldo ocorre imediatamente após alterações.
+
+
+Resultado: Funcionamento estável e coerente com a proposta do sistema.
+
+
+---
+
+4.7 Resultados Obtidos
+
+Os testes demonstraram que:
+
+O sistema opera corretamente nas duas plataformas.
+
+A lógica financeira é consistente.
+
+A persistência de dados funciona conforme esperado.
+
+A navegação é clara e intuitiva.
+
+A estrutura hierárquica facilita organização financeira.
+
+
+A implementação em duas plataformas distintas comprova a flexibilidade do modelo de negócio e a adaptação da lógica para diferentes ambientes de execução.
