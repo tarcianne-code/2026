@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>SmartCall - Controle Escolar</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+font-family:Segoe UI;
+box-sizing:border-box;
+}
+
+body{
+background:#0f172a;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:95%;
+max-width:1000px;
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+box-shadow:0 0 20px #000;
+}
+
+h2{
+margin-bottom:15px;
+}
+
+input,select,button{
+padding:10px;
+margin:5px 0;
+width:100%;
+border:none;
+border-radius:6px;
+}
+
+input,select{
+background:#334155;
+color:white;
+}
+
+button{
+background:#38bdf8;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+background:#0ea5e9;
+}
+
+.flex{
+display:flex;
+gap:10px;
+}
+
+.card{
+background:#334155;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+}
+
+.hidden{
+display:none;
+}
+
+.status{
+font-weight:bold;
+}
+.presente{color:#22c55e;}
+.atraso{color:#facc15;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login">
+<h2>📘 SmartCall - Login</h2>
+<input id="user" placeholder="Usuário">
+<input id="pass" type="password" placeholder="Senha">
+<button onclick="entrar()">Entrar</button>
+</div>
+
+<!-- SISTEMA -->
+<div id="sistema" class="hidden">
+
+<h2>Controle de Presença</h2>
+
+<div class="flex">
+<button onclick="mostrar('cadastro')">Cadastrar Aluno</button>
+<button onclick="mostrar('presenca')">Registrar Entrada</button>
+<button onclick="mostrar('lista')">Lista</button>
+</div>
+
+<!-- CADASTRO -->
+<div id="cadastro" class="aba">
+<h3>Novo Aluno</h3>
+
+<input id="nome" placeholder="Nome completo">
+
+<select id="serie">
+<option>1º Ano</option>
+<option>2º Ano</option>
+<option>3º Ano</option>
+</select>
+
+<select id="curso">
+<option>Informática</option>
+<option>Enfermagem</option>
+<option>Guia</option>
+</select>
+
+<button onclick="cadastrar()">Cadastrar</button>
+</div>
+
+<!-- PRESENÇA -->
+<div id="presenca" class="aba hidden">
+<h3>Registrar Entrada</h3>
+
+<input id="buscaID" placeholder="Digite ID do aluno">
+
+<button onclick="registrar()">Confirmar Entrada</button>
+
+<div id="resultado"></div>
+</div>
+
+<!-- LISTA -->
+<div id="lista" class="aba hidden">
+<h3>Alunos</h3>
+<div id="alunosLista"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+let registros = JSON.parse(localStorage.getItem("registros")) || [];
+
+function salvar(){
+localStorage.setItem("alunos",JSON.stringify(alunos));
+localStorage.setItem("registros",JSON.stringify(registros));
+}
+
+function entrar(){
+if(user.value==="admin" && pass.value==="123"){
+login.classList.add("hidden");
+sistema.classList.remove("hidden");
+listar();
+}
+else alert("Login inválido");
+}
+
+function mostrar(id){
+document.querySelectorAll(".aba")
+.forEach(a=>a.classList.add("hidden"));
+
+document.getElementById(id)
+.classList.remove("hidden");
+}
+
+function gerarID(nome){
+
+let base = nome.split(" ")[0]
+.substring(0,3)
+.toUpperCase();
+
+let id = base;
+let count=1;
+
+while(alunos.find(a=>a.id===id)){
+id = base+"-"+count;
+count++;
+}
+
+return id;
+}
+
+function cadastrar(){
+
+let nomeAluno = nome.value.trim();
+if(!nomeAluno)return alert("Digite nome");
+
+let id = gerarID(nomeAluno);
+
+alunos.push({
+id,
+nome:nomeAluno,
+serie:serie.value,
+curso:curso.value
+});
+
+salvar();
+alert("Aluno cadastrado! ID: "+id);
+
+nome.value="";
+listar();
+}
+
+function registrar(){
+
+let idBusca = buscaID.value.toUpperCase();
+
+let aluno = alunos.find(a=>a.id===idBusca);
+
+if(!aluno){
+resultado.innerHTML="Aluno não encontrado";
+return;
+}
+
+let agora = new Date();
+let hora = agora.getHours();
+let minuto = agora.getMinutes();
+
+let status="Presente";
+
+if(hora>7 || (hora==7 && minuto>10))
+status="Atraso";
+
+registros.push({
+id:aluno.id,
+nome:aluno.nome,
+data:agora.toLocaleDateString(),
+hora:agora.toLocaleTimeString(),
+status
+});
+
+salvar();
+
+resultado.innerHTML=
+`<div class="card">
+${aluno.nome}<br>
+Status:
+<span class="${status.toLowerCase()}">
+${status}
+</span>
+</div>`;
+
+buscaID.value="";
+}
+
+function listar(){
+
+alunosLista.innerHTML="";
+
+alunos.forEach(a=>{
+alunosLista.innerHTML+=`
+<div class="card">
+${a.nome}<br>
+ID: ${a.id}<br>
+${a.serie} - ${a.curso}
+</div>`;
+});
+}
+
+</script>
+
+</body>
+</html>
