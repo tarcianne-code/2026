@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Caixa Pro - Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="center">
+
+<div class="card">
+    <div class="left">
+        <h1>Sistema de Caixa</h1>
+        <p>Controle financeiro inteligente</p>
+    </div>
+
+    <div class="right">
+
+        <div id="cadastro">
+            <h2>Cadastrar</h2>
+            <input type="text" id="cadUser" placeholder="Usuário">
+            <input type="password" id="cadPass" placeholder="Senha">
+            <button onclick="cadastrar()">Cadastrar</button>
+            <div class="link" onclick="mostrarLogin()">Já tenho conta</div>
+        </div>
+
+        <div id="login" class="hidden">
+            <h2>Login</h2>
+            <input type="text" id="loginUser" placeholder="Usuário">
+            <input type="password" id="loginPass" placeholder="Senha">
+            <button onclick="login()">Entrar</button>
+            <div class="link" onclick="mostrarCadastro()">Criar conta</div>
+        </div>
+
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

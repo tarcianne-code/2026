@@ -1,0 +1,134 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(120deg,#b8d7fa,#113349);
+    min-height:100vh;
+}
+
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    width:900px;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+}
+
+.left{
+    flex:1;
+    background:linear-gradient(135deg,#2c3e50,#113349);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.right{
+    flex:1;
+    padding:40px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:8px;
+    border:none;
+    border-radius:8px;
+    background:#446386;
+    color:white;
+    cursor:pointer;
+    margin-top:6px;
+    font-size:13px;
+}
+
+button:hover{
+    background:#2c3e50;
+}
+
+.link{
+    margin-top:10px;
+    color:#446386;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.hidden{display:none;}
+
+.layout{
+    display:flex;
+    height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#2c3e50;
+    color:white;
+    padding:20px;
+    overflow:auto;
+}
+
+.sidebar div{
+    margin:5px 0;
+    cursor:pointer;
+}
+
+.sidebar div:hover{
+    opacity:0.8;
+}
+
+.content{
+    flex:1;
+    background:white;
+    padding:20px;
+    overflow:auto;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.form-mov{
+    display:grid;
+    grid-template-columns:1fr 1fr 2fr 1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:8px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+
+.entrada{color:green;}
+.saida{color:red;}
+
+.logout{
+    background:#b02a37;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Caixa Pro - Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>📁 Anos</h2>
+        <div id="listaAnos"></div>
+        <button onclick="criarAno()">+ Novo Ano</button>
+    </aside>
+
+    <main class="content">
+
+        <div class="topbar">
+            <h2 id="tituloAtual">Selecione um período</h2>
+            <button onclick="logout()" class="logout">Sair</button>
+        </div>
+
+        <div class="form-mov">
+            <input type="date" id="data">
+            <select id="tipo">
+                <option value="Entrada">Entrada</option>
+                <option value="Saida">Saída</option>
+            </select>
+            <input type="text" id="descricao" placeholder="Descrição">
+            <input type="number" id="valor" placeholder="Valor">
+            <button onclick="adicionarMov()">Adicionar</button>
+        </div>
+
+        <div class="resumo" id="resumo"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela"></tbody>
+        </table>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
