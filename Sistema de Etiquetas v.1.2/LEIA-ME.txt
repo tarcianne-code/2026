@@ -1,0 +1,24 @@
+CHECKRÁPIDO — WINDOWS 10 / 11
+
+1. Extraia o ZIP para uma pasta NOVA, por exemplo:
+   C:\Users\Suporte\Desktop\Sistemas\checkrapido
+2. Instale Node.js 24 LTS, caso ainda não tenha.
+3. Abra CMD na pasta do projeto.
+4. Execute: npm.cmd install
+5. Execute: npm.cmd run setup
+6. Execute: npm.cmd start
+7. Abra http://localhost:3000
+8. Faça login, cadastre produto, lote e clique em Imprimir.
+
+ATENÇÃO
+- A versão 2.0 tem banco NOVO em data\checkrapido.sqlite.
+- Não substitua nem apague a versão 1.0.
+- O QR aponta para localhost:3000 e funciona no próprio notebook.
+- Para ler pelo celular, é necessário configurar rede local e endereço acessível;
+  NÃO exponha o servidor diretamente à internet.
+- A impressora precisa ter driver e suporte ao papel de 58 mm.
+- O rolo de 58 mm costuma ter área útil menor; layout usa 54 mm.
+- Os prazos de validade são definidos pelo operador, conforme normas aplicáveis.
+- O status de validade usa o relógio do dispositivo e não substitui inspeção.
+- Faça backups periódicos do banco com o servidor parado.
+- Não imprima etiquetas para uso real antes de validar os campos e as regras.
