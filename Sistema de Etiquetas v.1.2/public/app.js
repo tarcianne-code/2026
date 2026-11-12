@@ -1,0 +1,13 @@
+const $=s=>document.querySelector(s),msg=t=>$('#msg').textContent=t;
+async function api(url,opts={}){const r=await fetch(url,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})}});const d=await r.json();if(!r.ok)throw Error(d.error||'Erro na solicitação');return d}
+const show=logged=>{$('#loginBox').hidden=logged;$('#app').hidden=!logged;$('#logout').hidden=!logged};
+const fmt=s=>s?new Date(s).toLocaleString('pt-BR'):'';
+function nowLocal(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`}
+async function refresh(){const [products,batches]=await Promise.all([api('/api/products'),api('/api/batches')]);const select=$('#productSelect');select.replaceChildren();for(const p of products){const o=document.createElement('option');o.value=p.id;o.textContent=p.name+' ('+p.shelf_life_hours+'h)';select.append(o)}
+const tbody=$('#batchRows');tbody.replaceChildren();for(const b of batches){const tr=document.createElement('tr'),expired=new Date(b.expires_at).getTime()<Date.now();for(const v of [b.product_name,b.lot,fmt(b.expires_at),expired?'Vencido':'Dentro da validade']){const td=document.createElement('td');td.textContent=v;if(v==='Vencido')td.className='expired';if(v==='Dentro da validade')td.className='ok';tr.append(td)}const td=document.createElement('td'),a=document.createElement('a');a.href='/etiqueta/'+b.id;a.target='_blank';a.rel='noopener';a.textContent='Imprimir';td.append(a);tr.append(td);tbody.append(tr)}}
+$('#login').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/login',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});show(true);await refresh();msg('')}catch(err){msg(err.message)}});
+$('#productForm').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/products',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});e.target.reset();await refresh();msg('Produto cadastrado.')}catch(err){msg(err.message)}});
+$('#batchForm').addEventListener('submit',async e=>{e.preventDefault();try{const b=await api('/api/batches',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});await refresh();window.open('/etiqueta/'+b.id,'_blank');msg('Lote criado! Confira a etiqueta na nova aba.')}catch(err){msg(err.message)}});
+$('#logout').onclick=async()=>{try{await api('/api/logout',{method:'POST'})}finally{show(false)}};
+$('#batchForm [name=prepared_at]').value=nowLocal();
+api('/api/me').then(async()=>{show(true);await refresh()}).catch(()=>show(false));
