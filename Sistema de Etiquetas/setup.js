@@ -1,0 +1,4 @@
+const db=require('./db');const bcrypt=require('bcryptjs');const readline=require('readline');
+if(db.prepare('SELECT COUNT(*) AS n FROM users').get().n){console.log('Usuário já existe. Configuração encerrada.');process.exit(0)}
+const rl=readline.createInterface({input:process.stdin,output:process.stdout});const ask=q=>new Promise(resolve=>rl.question(q,resolve));
+(async()=>{const email=(await ask('E-mail do administrador: ')).trim().toLowerCase();const password=await ask('Senha (mínimo 12 caracteres): ');if(!/^\S+@\S+\.\S+$/.test(email)||password.length<12)throw Error('E-mail inválido ou senha curta');db.prepare('INSERT INTO users(email,password_hash) VALUES (?,?)').run(email,bcrypt.hashSync(password,12));console.log('Administrador criado. Execute npm start.');})().catch(e=>{console.error(e.message);process.exitCode=1}).finally(()=>rl.close());
